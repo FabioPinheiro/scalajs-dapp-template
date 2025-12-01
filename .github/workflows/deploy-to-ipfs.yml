@@ -1,0 +1,36 @@
+name: Deploy to IPFS
+
+on:
+  push:
+   branches: [ main ]
+  workflow_dispatch:  # Allow manual triggers
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to IPFS
+      uses: aave/pinata-action@v1.2
+      id: pinata
+      with: 
+        BUILD_LOCATION: 'dist'
+        PIN_ALIAS: 'dApp Template - #${{ github.run_number }}.${{ github.run_attempt }} - ${{github.sha}}'
+        PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+        PINATA_SECRET_KEY: ${{ secrets.PINATA_API_SECRET }}
+        CID_VERSION: 1
+        GITHUB_TOKEN: ''
+
+    - name: Cloudflare Update
+      run: |
+        curl https://api.cloudflare.com/client/v4/zones/${{ vars.CLOUDFLARE_ZONE_ID }}/web3/hostnames/${{ vars.CLOUDFLARE_HOSTNAME_IDENTIER }} \
+          -X PATCH \
+          -H 'Content-Type: application/json' \
+          -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+          -d '{
+            "description": "dapp Template - #${{ github.run_number }}.${{ github.run_attempt }} - ${{ github.sha }}",
+            "dnslink": "/ipfs/${{ steps.pinata.outputs.hash }}"
+          }'
