@@ -12,12 +12,31 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Needed for the release tag // `git fetch --tags` will also work
+    - name: Setup Java and Scala
+      uses: olafurpg/setup-scala@v14
+      with:
+        java-version: openjdk@1.17.0
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: "22" # or whatever
+    - name: Setup Scala.JS
+      uses: japgolly/setup-scalajs@v1
+    - name: Cache sbt
+      uses: coursier/cache-action@v7
+    
+    - name: NPM install
+      run: npm install
+    - name: Build dApp
+      run: npm run build
 
     - name: Deploy to IPFS
-      uses: aave/pinata-action@v1.2
+      uses: aave/pinata-action@7697827c31296d0d9afefcab09242a620b60f6b7 # commit hash for version v1.2
       id: pinata
       with: 
-        BUILD_LOCATION: 'dist'
+        BUILD_LOCATION: 'vite/dist'
         PIN_ALIAS: 'dApp Template - #${{ github.run_number }}.${{ github.run_attempt }} - ${{github.sha}}'
         PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
         PINATA_SECRET_KEY: ${{ secrets.PINATA_API_SECRET }}

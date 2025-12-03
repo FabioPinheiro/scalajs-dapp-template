@@ -1,2 +1,58 @@
+.bloop/
+.metals/
+.bsp/
+.vscode/
+project/metals.sbt
+project/project/
+target/
+node_modules/
+
+**/yarn.lock
+
+## igone(generated files)
+.*.swn
+.*.swo
+.*.swp
+.~*
+*.bak
+*.log
+*.pid
+*.semanticdb
+*.tmp
+~*
+
+### VITE ###
+vite/dev-dist/
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+####################
+### THIS PROJECT ###
+####################
+/vite/dist/**
+
+### secrets ###
 .secret
-node_modules
+
+# TODO - remove this line and start committing those files on your project
+package-lock.json

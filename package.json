@@ -1,0 +1,26 @@
+{
+  "name": "dapp-template",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "author": "FabioPinheiro",
+  "description": "dApp template",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FabioPinheiro/scalajs-dapp-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FabioPinheiro/scalajs-dapp-template/issues"
+  },
+  "homepage": "https://github.com/FabioPinheiro/scalajs-dapp-template#readme",
+  "scripts": {
+    "dev": "vite",
+    "clean": "rm -rf node_modules",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@scala-js/vite-plugin-scalajs": "^1.1.0",
+    "vite": "^7.2.6"
+  }
+}
